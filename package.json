@@ -25,11 +25,15 @@
   },
   "homepage": "https://github.com/Pranto-Paul/mern_backend#readme",
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3"
   },
   "dependencies": {
+    "chalk": "^5.4.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0"
   }
 }
