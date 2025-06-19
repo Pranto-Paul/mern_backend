@@ -1,0 +1,35 @@
+{
+  "name": "mern_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pranto-Paul/mern_backend.git"
+  },
+  "keywords": [
+    "mern",
+    "js",
+    "express",
+    "backend"
+  ],
+  "author": "pranto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pranto-Paul/mern_backend/issues"
+  },
+  "homepage": "https://github.com/Pranto-Paul/mern_backend#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
