@@ -9,7 +9,7 @@ connectDB()
     .then(() => {
         app.listen(PORT, () => {
             log.info(
-                `SERVER IS RUNNING ON PORT: http://localhost:${PORT}`,
+                `SERVER IS RUNNING ON: http://localhost:${PORT}`,
                 "SERVER"
             );
         });
