@@ -6,6 +6,23 @@ import ApiResponse from "../utils/apiResponse.js";
 import { registerUserSchema } from "../schema/user.schema.js";
 import { z } from "zod";
 
+const generateAccessAndRefereshTokens = async (user) => {
+    try {
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
+
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return { accessToken, refreshToken };
+    } catch (error) {
+        throw new ApiError(
+            500,
+            "Something went wrong while generating referesh and access token"
+        );
+    }
+};
+
 const registerUser = asyncHandler(async (req, res) => {
     try {
         // Validate request body using Zod
@@ -102,4 +119,84 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-export { registerUser };
+const loginUser = asyncHandler(async (req, res) => {
+    try {
+        const { email, username, password } = req.body;
+
+        if (!username && !email) {
+            throw new ApiError(400, "username or email is required");
+        }
+        const user = await User.findOne({
+            $or: [{ username }, { email }],
+        });
+
+        if (!user) {
+            throw new ApiError(404, "User does not exist");
+        }
+
+        const isPasswordValid = await user.isPasswordCorrect(password);
+
+        if (!isPasswordValid) {
+            throw new ApiError(401, "Invalid user credentials");
+        }
+
+        const { accessToken, refreshToken } =
+            await generateAccessAndRefereshTokens(user);
+
+        const loggedInUser = await User.findById(user._id).select(
+            "-password -refreshToken"
+        );
+
+        const options = {
+            httpOnly: true,
+            secure: true,
+        };
+
+        return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        user: loggedInUser,
+                        accessToken,
+                        refreshToken,
+                    },
+                    "User logged In Successfully"
+                )
+            );
+    } catch (error) {
+        return res.status(error.statusCode || 500).json({
+            success: false,
+            message: error.message || "Internal Server Error",
+        });
+    }
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $unset: {
+                refreshToken: 1, // this removes the field from document
+            },
+        },
+        {
+            new: true,
+        }
+    );
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+    };
+
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "User logged Out"));
+});
+export { registerUser, loginUser, logoutUser };
