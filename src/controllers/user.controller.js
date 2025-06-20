@@ -9,6 +9,7 @@ import updateUserCoverImage from "./user/updateUserCoverImage.js";
 import refreshAccessToken from "./user/refreshAccessToken.js";
 import deleteUser from "./user/deleteUser.js";
 import getUserChanelProfile from "./user/getUserChanelProfile.js";
+import getWatchHistory from "./user/getWatchHistory.js";
 export {
     registerUser,
     loginUser,
@@ -21,4 +22,5 @@ export {
     updateUserAvatar,
     updateUserCoverImage,
     getUserChanelProfile,
+    getWatchHistory,
 };
