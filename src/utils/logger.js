@@ -2,7 +2,7 @@ import chalk from "chalk";
 import dayjs from "dayjs";
 
 const timestamp = () =>
-    chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}]`);
+    chalk.gray(`[${dayjs().format("YYYY-MM-DD hh:mm:ss A")}]`);
 
 export const log = {
     info: (msg, label = "APP") =>

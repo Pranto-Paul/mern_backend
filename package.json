@@ -4,6 +4,13 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+   "imports": {
+    "#utils/*": "./src/utils/*",
+    "#controllers/*": "./src/controllers/*",
+    "#models/*": "./src/models/*",
+    "#middlewares/*": "./src/middlewares/*",
+    "#schema/*": "./src/schema/*"
+  },
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
@@ -41,6 +48,7 @@
     "mongoose": "^8.16.0",
     "mongoose-aggregate-paginate-v2": "^1.1.4",
     "multer": "^2.0.1",
+    "nodemailer": "^7.0.3",
     "zod": "^3.25.67"
   }
 }
